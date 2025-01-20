@@ -1,0 +1,43 @@
+services:
+  - type: web
+    name: tasks-api
+    runtime: node
+    plan: free
+    region: ohio
+    buildCommand: npm install
+    startCommand: node src/app.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DB_NAME
+        fromDatabase:
+          name: tasks_db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: tasks_db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: tasks_db
+          property: password
+      - key: DB_HOST
+        fromDatabase:
+          name: tasks_db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: tasks_db
+          property: port
+
+databases:
+  - name: tasks_db
+    databaseName: tasks_db
+    user: tasks_user
+    region: ohio
+    plan: free
+    postgresMajorVersion: "15"
